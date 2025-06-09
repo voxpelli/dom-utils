@@ -1,0 +1,21 @@
+# To instead use the bot, replace the release-please workflow with this one and then
+# add a new GitHub environment called "pr-bot" that contains a "APP_PEM" secret and
+# restrict the environment to the "main" branch
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+
+jobs:
+  release-please:
+    uses: voxpelli/ghatemplates/.github/workflows/release-please-bot.yml@main
+    secrets: inherit
+    with:
+      app-id: '1082006'

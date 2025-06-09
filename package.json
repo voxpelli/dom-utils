@@ -1,6 +1,6 @@
 {
   "name": "@voxpelli/dom-utils",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Basic small typed DOM helpers that aids in the creation of vanilla JS code",
   "homepage": "http://github.com/voxpelli/dom-utils",
   "repository": {

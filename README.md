@@ -2,7 +2,7 @@
 
 Basic small typed DOM helpers that aids in the creation of vanilla JS code.
 
-Makes it easy to query, create and modify DOM-nodes – consider it a mini-`jQuery`. Somewhat inspired by [Bliss.js](http://blissfuljs.com/).
+Helps query, create and modify DOM-nodes. Like a mini-jQuery. Somewhat inspired by [Bliss.js](http://blissfuljs.com/).
 
 Based on [`@hdsydsvenskan/dom-utils`](https://github.com/sydsvenskan/js-dom-utils) which was based on my personal utility functions.
 

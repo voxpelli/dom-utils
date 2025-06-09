@@ -12,7 +12,6 @@
 # Generated types
 *.d.ts
 *.d.ts.map
-!/lib/**/*-types.d.ts
-!/index.d.ts
+!/advanced-types.d.ts
 
 # Library specific ones

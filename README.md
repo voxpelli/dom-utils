@@ -1,11 +1,13 @@
-# Node Module Template
+# DOM Utils
 
-A GitHub template repo for node modules
+Basic small typed DOM helpers that aids in the creation of vanilla JS code.
 
-<!--
-[![npm version](https://img.shields.io/npm/v/@voxpelli/node-module-template.svg?style=flat)](https://www.npmjs.com/package/@voxpelli/node-module-template)
-[![npm downloads](https://img.shields.io/npm/dm/@voxpelli/node-module-template.svg?style=flat)](https://www.npmjs.com/package/@voxpelli/node-module-template)
--->
+Makes it easy to query, create and modify DOM-nodes – consider it a mini-`jQuery`. Somewhat inspired by [Bliss.js](http://blissfuljs.com/).
+
+Based on [`@hdsydsvenskan/dom-utils`](https://github.com/sydsvenskan/js-dom-utils) which was based on my personal utility functions.
+
+[![npm version](https://img.shields.io/npm/v/@voxpelli/dom-utils.svg?style=flat)](https://www.npmjs.com/package/@voxpelli/dom-utils)
+[![npm downloads](https://img.shields.io/npm/dm/@voxpelli/dom-utils.svg?style=flat)](https://www.npmjs.com/package/@voxpelli/dom-utils)
 [![neostandard javascript style](https://img.shields.io/badge/code_style-neostandard-7fffff?style=flat&labelColor=ff80ff)](https://github.com/neostandard/neostandard)
 [![Module type: ESM](https://img.shields.io/badge/module%20type-esm-brightgreen)](https://github.com/voxpelli/badges-cjs-esm)
 [![Types in JS](https://img.shields.io/badge/types_in_js-yes-brightgreen)](https://github.com/voxpelli/types-in-js)
@@ -14,47 +16,14 @@ A GitHub template repo for node modules
 ## Usage
 
 ```javascript
-import { something } from '@voxpelli/node-module-template';
+import {
+  $,
+  createChild,
+} from '@voxpelli/dom-utils';
 
-// Use that something
+const elem = $('.a-nice-selector');
+
+createChild(elem, 'div', 'a-nice-selector__bemish-elem', 'With some nice text in it');
 ```
 
-## API
-
-### something()
-
-Takes a value (`input`), does something configured by the config (`configParam`) and returns the processed value asyncly(`output`)
-
-#### Syntax
-
-```ts
-something(input, [options]) => Promise<true>
-```
-
-#### Arguments
-
-* `input` – _`string`_ – the input of the method
-* `options` – _[`SomethingOptions`](#somethingoptions)_ – optional options
-
-#### SomethingOptions
-
-* `maxAge` – _`number`_ – the maximum age of latest release to include
-* `minDownloadsLastMonth = 400` – _`number`_ – the minimum amount of downloads needed to be returned
-* `skipPkg` – _`boolean`_ – when set skips resolving `package.json`
-
-#### Returns
-
-A `Promise` that resolves to `true`
-
-## Used by
-
-* [`example`](https://example.com/) – used by this one to do X and Y
-
-## Similar modules
-
-* [`example`](https://example.com/) – is similar in this way
-
-## See also
-
-* [Announcement blog post](#)
-* [Announcement tweet](#)
+## Methods and types

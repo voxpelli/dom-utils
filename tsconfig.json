@@ -4,10 +4,9 @@
     "index.js"
   ],
   "include": [
-    "lib/**/*",
-    "test/**/*",
+    "test-d/**/*",
   ],
   "compilerOptions": {
-    "types": ["node", "mocha"]
+    "lib": ["ES2016", "DOM"],
   }
 }

@@ -37,7 +37,7 @@
     "prepare": "husky",
     "prepublishOnly": "run-s build",
     "test:tsd": "tsd",
-    "test-checkless": "run-s build test:*",
+    "test-ci": "run-s build test:*",
     "test": "run-s check build test:* clean"
   },
   "devDependencies": {

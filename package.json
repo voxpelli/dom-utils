@@ -17,6 +17,7 @@
   "exports": "./index.js",
   "types": "index.d.ts",
   "files": [
+    "advanced-types.d.ts",
     "index.js",
     "index.d.ts",
     "index.d.ts.map"

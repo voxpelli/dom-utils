@@ -4,9 +4,10 @@
     "index.js"
   ],
   "include": [
-    "test-d/**/*",
+    "test-d/**/*"
   ],
   "compilerOptions": {
     "lib": ["ES2016", "DOM"],
+    "types": []
   }
 }

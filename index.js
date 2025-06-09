@@ -64,10 +64,13 @@ export const ensureHTMLElements = (elems) => {
    */
   const purified = [];
 
-  return elems.reduce((result, elem) => {
-    if (elem instanceof HTMLElement) result.push(elem);
-    return result;
-  }, purified);
+  for (const elem of elems) {
+    if (elem instanceof HTMLElement) {
+      purified.push(elem);
+    }
+  }
+
+  return purified;
 };
 
 /**

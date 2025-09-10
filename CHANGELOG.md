@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/voxpelli/dom-utils/compare/v1.0.2...v2.0.0) (2025-09-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* update types + deprecate functions ([#7](https://github.com/voxpelli/dom-utils/issues/7))
+
+### 📚 Documentation
+
+* minor rewording ([d11f414](https://github.com/voxpelli/dom-utils/commit/d11f414d574bac3f4fe65afc1aab60d1f5f10fdd))
+
+
+### 🧹 Chores
+
+* update types + deprecate functions ([#7](https://github.com/voxpelli/dom-utils/issues/7)) ([e25692d](https://github.com/voxpelli/dom-utils/commit/e25692d398ab44a7a3010b395e6003faac1a95ca))
+
 ## [1.0.2](https://github.com/voxpelli/dom-utils/compare/v1.0.1...v1.0.2) (2025-06-09)
 
 

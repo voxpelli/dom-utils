@@ -307,7 +307,7 @@ export const is = (elem, selector) => elem.matches(selector);
  * @returns {HTMLElement|undefined}
  */
 export const elemByClass = function (className, context) {
-  if (context instanceof Element && context.classList.contains(className)) return ensureHTMLElement(context);
+  if (context instanceof HTMLElement && context.classList.contains(className)) return context;
   return $('.' + className, context);
 };
 

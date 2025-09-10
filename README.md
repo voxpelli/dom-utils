@@ -26,254 +26,437 @@ const elem = $('.a-nice-selector');
 createChild(elem, 'div', 'a-nice-selector__bemish-elem', 'With some nice text in it');
 ```
 
+## ⚠️ Version 2.0.0 Breaking Changes & Deprecations
+
+**Many helpers are now deprecated in favor of modern DOM APIs.**
+
+### Deprecated functions and their modern replacements
+
+| Deprecated Function   | Use Instead (Modern DOM API)           |
+|----------------------|-----------------------------------------|
+| `hasClass`           | `element.classList.contains()`          |
+| `addClass`           | `element.classList.add()`               |
+| `removeClass`        | `element.classList.remove()`            |
+| `toggleClass`        | `element.classList.toggle()`            |
+| `appendChild`        | `element.append()`                      |
+| `emptyElement`       | `element.replaceChildren()`             |
+| `removeElement`      | `element.remove()`                      |
+| `getDataAttribute`   | `element.dataset`                       |
+| `setDataAttribute`   | `element.dataset`                       |
+| `closestByClass`     | `element.closest()`                     |
+| `is`                 | `element.matches()`                     |
+
+These deprecated helpers are still available for backward compatibility, but you are encouraged to migrate to the standard DOM APIs for better performance and future compatibility.
+
+### Other changes
+
+- Function signatures now use more precise types (e.g. `ParentNode`, `HTMLElementTagNameMap`).
+- `setAttributes` now sets attributes also to falsy non-null/undefined values.
+
 ## API
 
-#### Table of Contents
+### Table of Contents
 
--   [ElementContainer](#elementcontainer)
--   [ensureElementContainer](#ensureelementcontainer)
--   [ensureHTMLElement](#ensurehtmlelement)
--   [ensureHTMLElements](#ensurehtmlelements)
--   [$$](#)
--   [$](#-1)
--   [addText](#addtext)
--   [hasClass](#hasclass)
--   [removeClass](#removeclass)
--   [addClass](#addclass)
--   [toggleClass](#toggleclass)
--   [appendChild](#appendchild)
--   [setAttributes](#setattributes)
--   [removeElement](#removeelement)
--   [emptyElement](#emptyelement)
--   [getDataAttribute](#getdataattribute)
--   [setDataAttribute](#setdataattribute)
--   [createElement](#createelement)
--   [createChild](#createchild)
--   [closestByClass](#closestbyclass)
--   [elemByClass](#elembyclass)
--   [elemsByClass](#elemsbyclass)
--   [insertBefore](#insertbefore)
+* [Querying & Traversing](#querying--traversing)
+  * [$](#)
+  * [$$](#)
+  * ~~[closestByClass](#closestbyclass)~~
+  * [elemByClass](#elembyclass)
+  * [elemsByClass](#elemsbyclass)
+  * ~~[is](#is)~~
+* [Creation & Insertion](#creation--insertion)
+  * [addText](#addtext)
+  * ~~[appendChild](#appendchild)~~
+  * [createChild](#createchild)
+  * [createElement](#createelement)
+  * [insertBefore](#insertbefore)
+* [Attributes & Classes](#attributes--classes)
+  * ~~[addClass](#addclass)~~
+  * ~~[getDataAttribute](#getdataattribute)~~
+  * ~~[hasClass](#hasclass)~~
+  * ~~[removeClass](#removeclass)~~
+  * [setAttributes](#setattributes)
+  * ~~[setDataAttribute](#setdataattribute)~~
+  * ~~[toggleClass](#toggleclass)~~
+* [Manipulation & Removal](#manipulation--removal)
+  * ~~[emptyElement](#emptyelement)~~
+  * ~~[removeElement](#removeelement)~~
+* [Types](#types)
+  * [ElementContainer](#elementcontainer)
 
-### ElementContainer
+### Querying & Traversing
 
-Type: ([Document](https://developer.mozilla.org/docs/Web/API/Document) \| [DocumentFragment](https://developer.mozilla.org/docs/Web/API/DocumentFragment) \| [Element](https://developer.mozilla.org/docs/Web/API/Element))
+#### $()
 
-### ensureElementContainer
+Like `$$()`, but returns only a single HTML element. A thin wrapper around `querySelector`.
 
-Mostly for internal use. Ensures that the node is of an element container type, mostly helps type validation
+If one needs to match against the `context` container element itself, then use `elemByClass()` instead.
 
-#### Parameters
+##### Syntax
 
--   `elem` **[Node](https://developer.mozilla.org/docs/Web/API/Node/nextSibling)**
+```ts
+$(selector, [context]) => HTMLElement | undefined
+```
 
-Returns **([ElementContainer](#elementcontainer) \| [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))**
+##### Arguments
 
-### ensureHTMLElement
+* `selector` – _`string | Node`_ – A CSS selector string, or a node.
+* `context` – _`ParentNode`_ – Optional context from which to search. Defaults to `document`.
 
-Mostly for internal use. Ensures that the node is an actual HTML element, mostly helps type validation
+##### Returns
 
-#### Parameters
+A single `HTMLElement` or `undefined` if no match is found.
 
--   `elem` **T**
+#### $$()
 
-### ensureHTMLElements
+Get an array of HTML elements that matches the specified selector. A thin wrapper around `querySelectorAll`.
 
-Mostly for internal use. Ensures that a list of nodes only contains HTML elements, mostly helps type validation
+##### Syntax
 
-#### Parameters
+```ts
+$$(selector, [context]) => HTMLElement[]
+```
 
--   `elems` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;T>**
+##### Arguments
 
-### $$
+* `selector` – _`string | Node[] | NodeListOf<Node>`_ – A CSS selector string, or an array/NodeList of nodes.
+* `context` – _`ParentNode`_ – Optional context from which to search. Defaults to `document`.
 
-Get an array of HTML elements that matches the specified selector
+##### Returns
 
-#### Parameters
+An array of `HTMLElement`s.
 
--   `selector` **T**
--   `context` **[ElementContainer](#elementcontainer)?** If set, only looks up elements within the context container
+#### closestByClass()
 
-### $
+> [!WARNING]
+> **Deprecated:** Use `element.closest()` instead.
 
-Like [$$](#), but returns only a single HTML element
+Iterates over the parents of a node and returns the first one that has the specified class name.
 
-If one needs to match against the context container element itself, then use [elemByClass](#elembyclass) instead
+##### Syntax
 
-#### Parameters
+```ts
+closestByClass(elem, className) => HTMLElement | undefined
+```
 
--   `selector` **T**
--   `context` **[ElementContainer](#elementcontainer)?**
+##### Arguments
 
-### addText
+* `elem` – _`Node`_
+* `className` – _`string`_
 
-Adds text nodes to the supplied element, persisting newlines by adding br elements for each newline
+##### Returns
 
-#### Parameters
+A single `HTMLElement` or `undefined` if no match is found.
 
--   `elem` **[Element](https://developer.mozilla.org/docs/Web/API/Element)**
--   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+#### elemByClass()
 
-### hasClass
+Like `$()`, but with class name rather than selector + also matches against the context itself, not just elements within it.
 
-#### Parameters
+##### Syntax
 
--   `elem` **[Element](https://developer.mozilla.org/docs/Web/API/Element)**
--   `className` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+```ts
+elemByClass(className, [context]) => HTMLElement | undefined
+```
 
-Returns **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**
+##### Arguments
 
-### removeClass
+* `className` – _`string`_
+* `context` – _`ParentNode`_
 
-#### Parameters
+#### elemsByClass()
 
--   `elem` **[Element](https://developer.mozilla.org/docs/Web/API/Element)**
--   `className` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Like `elemByClass()` but returns an array of all matching elements within the context.
 
-Returns **void**
+##### Syntax
 
-### addClass
+```ts
+elemsByClass(className, [context]) => HTMLElement[]
+```
 
-#### Parameters
+##### Arguments
 
--   `elem` **[Element](https://developer.mozilla.org/docs/Web/API/Element)**
--   `className` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+* `className` – _`string`_
+* `context` – _`ParentNode`_
 
-Returns **void**
+##### Returns
 
-### toggleClass
+An array of `HTMLElement`s.
 
-#### Parameters
+#### is()
 
--   `elem` **[Element](https://developer.mozilla.org/docs/Web/API/Element)**
--   `className` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+> [!WARNING]
+> **Deprecated:** Use `element.matches()` instead.
 
-Returns **void**
+Checks if an element matches a given selector.
 
-### appendChild
+##### Syntax
 
-Helper to append many children nodes at once
+```ts
+is(elem, selector) => boolean
+```
 
-#### Parameters
+##### Arguments
 
--   `elem` **[ElementContainer](#elementcontainer)**
--   `children` **...[Node](https://developer.mozilla.org/docs/Web/API/Node/nextSibling)**
+* `elem` – _`Element`_
+* `selector` – _`string`_
 
-### setAttributes
+##### Returns
 
-Helper to easily set a collection of attributes
+A `boolean`
 
-#### Parameters
+### Creation & Insertion
 
--   `elem` **[Element](https://developer.mozilla.org/docs/Web/API/Element)**
--   `attributes`
+#### addText()
 
-### removeElement
+Adds text nodes to the supplied element, persisting newlines by adding `<br>` elements for each newline.
 
-#### Parameters
+##### Syntax
 
--   `elem` **[Element](https://developer.mozilla.org/docs/Web/API/Element)**
+```ts
+addText(elem, text) => void
+```
 
-Returns **void**
+##### Arguments
 
-**Meta**
+* `elem` – _`Element`_
+* `text` – _`string`_
 
--   **deprecated**: Use element.remove() instead
+#### appendChild()
 
+> [!WARNING]
+> **Deprecated:** Use `element.append()` instead.
 
-### emptyElement
+Helper to append many children nodes at once.
 
-Iterates over all children in a container and removes them all
+##### Syntax
 
-#### Parameters
+```ts
+appendChild(elem, ...children) => void
+```
 
--   `elem` **[ElementContainer](#elementcontainer)**
+##### Arguments
 
-### getDataAttribute
+* `elem` – _`ParentNode`_
+* `children` – _`...Node`_
 
-Helper that makes one don't have to do kebab case conversion oneself
+#### createChild()
 
-#### Parameters
+Like `createElement()`, but also appends the created element to a container.
 
--   `elem` **[HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element)**
--   `attribute` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Should be in kebab case
+##### Syntax
 
-Returns **([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))**
+```ts
+createChild(elem, tag, [classNameOrAttributes], [text]) => HTMLElement
+```
 
-### setDataAttribute
+##### Arguments
 
-Helper that makes one don't have to do kebab case conversion oneself
+* `elem` – _`ParentNode`_
+* `tag` – _`keyof HTMLElementTagNameMap`_
+* `classNameOrAttributes` – _`string | string[] | { [attributeName: string]: string }`_
+* `text` – _`string`_
 
-#### Parameters
+##### Returns
 
--   `elem` **[HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element)**
--   `attribute` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Should be in kebab case
--   `value` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+The created `HTMLElement`.
 
-### createElement
+#### createElement()
 
-Helper to easily create a new HTML element, with all that one would need for that
+Helper to easily create a new HTML element, with all that one would need for that.
 
-#### Parameters
+##### Syntax
 
--   `tag` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `classNameOrAttributes`
--   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+```ts
+createElement(tag, [classNameOrAttributes], [text]) => HTMLElement
+```
 
-Returns **[HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element)**
+##### Arguments
 
-### createChild
+* `tag` – _`keyof HTMLElementTagNameMap`_
+* `classNameOrAttributes` – _`string | string[] | { [attributeName: string]: string }`_
+* `text` – _`string`_
 
-Like [createElement](#createelement), but also appends the created element to a container
+##### Returns
 
-Helpful when creating multiple elements within one another as one can then send the result of one as the container to the other.
+The created `HTMLElement`.
 
-#### Parameters
+#### insertBefore()
 
--   `elem` **[ElementContainer](#elementcontainer)**
--   `tag` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `classNameOrAttributes`
--   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?**
+Inserts a child node before a given element.
 
-Returns **[HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element)**
+##### Syntax
 
-### closestByClass
+```ts
+insertBefore(elem, child) => Node
+```
 
-Iterates over the parents of a node and returns the first one that has the specified class name
+##### Arguments
 
-#### Parameters
+* `elem` – _`Node`_ – The node to insert before.
+* `child` – _`Node`_ – The node to insert.
 
--   `elem` **[Node](https://developer.mozilla.org/docs/Web/API/Node/nextSibling)**
--   `className` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
+##### Returns
 
-Returns **([HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element) \| [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))**
+The inserted `child` node.
 
-### elemByClass
+### Attributes & Classes
 
-Like [$](#), but with class name rather than selector + also matches against the context itself, not just elements within it
+#### addClass()
 
-#### Parameters
+> [!WARNING]
+> **Deprecated:** Use `element.classList.add()` instead.
 
--   `className` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `context` **[ElementContainer](#elementcontainer)?**
+##### Syntax
 
-Returns **([HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element) \| [undefined](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/undefined))**
+```ts
+addClass(elem, className) => void
+```
 
-### elemsByClass
+##### Arguments
 
-Like [elemByClass](#elembyclass) but replaces [$$](#) instead and either returns the context itself if it matches, or a list of matching elements within it
+* `elem` – _`Element`_
+* `className` – _`string`_
 
-#### Parameters
+#### getDataAttribute()
 
--   `className` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)**
--   `context` **[ElementContainer](#elementcontainer)?**
+> [!WARNING]
+> **Deprecated:** Use `element.dataset` instead.
 
-Returns **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element)>**
+Helper that makes one don't have to do kebab case conversion oneself.
 
-### insertBefore
+##### Syntax
 
-#### Parameters
+```ts
+getDataAttribute(elem, attribute) => string | undefined
+```
 
--   `elem` **[Node](https://developer.mozilla.org/docs/Web/API/Node/nextSibling)**
--   `child` **T**
+##### Arguments
 
-Returns **T**
+* `elem` – _`HTMLElement`_
+* `attribute` – _`string`_ – Should be in kebab case.
+
+#### hasClass()
+
+> [!WARNING]
+> **Deprecated:** Use `element.classList.contains()` instead.
+
+##### Syntax
+
+```ts
+hasClass(elem, className) => boolean
+```
+
+##### Arguments
+
+* `elem` – _`Element`_
+* `className` – _`string`_
+
+#### removeClass()
+
+> [!WARNING]
+> **Deprecated:** Use `element.classList.remove()` instead.
+
+##### Syntax
+
+```ts
+removeClass(elem, className) => void
+```
+
+##### Arguments
+
+* `elem` – _`Element`_
+* `className` – _`string`_
+
+#### setAttributes()
+
+Helper to easily set a collection of attributes on an element.
+
+##### Syntax
+
+```ts
+setAttributes(elem, attributes) => void
+```
+
+##### Arguments
+
+* `elem` – _`Element`_
+* `attributes` – _`{ [attributeName: string]: string }`_
+
+#### setDataAttribute()
+
+> [!WARNING]
+> **Deprecated:** Use `element.dataset` instead.
+
+Helper that makes one don't have to do kebab case conversion oneself.
+
+##### Syntax
+
+```ts
+setDataAttribute(elem, attribute, value) => void
+```
+
+##### Arguments
+
+* `elem` – _`HTMLElement`_
+* `attribute` – _`string`_ – Should be in kebab case.
+* `value` – _`string`_
+
+#### toggleClass()
+
+> [!WARNING]
+> **Deprecated:** Use `element.classList.toggle()` instead.
+
+##### Syntax
+
+```ts
+toggleClass(elem, className) => void
+```
+
+##### Arguments
+
+* `elem` – _`Element`_
+* `className` – _`string`_
+
+### Manipulation & Removal
+
+#### emptyElement()
+
+> [!WARNING]
+> **Deprecated:** Use `element.replaceChildren()` instead.
+
+Iterates over all children in a container and removes them all.
+
+##### Syntax
+
+```ts
+emptyElement(elem) => void
+```
+
+##### Arguments
+
+* `elem` – _`ParentNode`_
+
+#### removeElement()
+
+> [!WARNING]
+> **Deprecated:** Use `element.remove()` instead.
+
+##### Syntax
+
+```ts
+removeElement(elem) => void
+```
+
+##### Arguments
+
+* `elem` – _`ChildNode`_
+
+### Types
+
+#### ElementContainer
+
+A type alias for a DOM element that can contain other elements.
+
+```ts
+export type ElementContainer = Document | DocumentFragment | Element;
+```

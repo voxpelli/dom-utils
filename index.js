@@ -79,7 +79,7 @@ export const ensureHTMLElements = (elems) => {
  *
  * @template {string|Node[]|NodeListOf<Node>} T
  * @param {T} selector
- * @param {ParentNode} [context] If set, only looks up elements within the context container
+ * @param {ParentNode|undefined|null} [context] If set, only looks up elements within the context container
  * @returns {TypeOf$$<T>[]}
  */
 export const $$ = function (selector, context) {
@@ -98,7 +98,7 @@ export const $$ = function (selector, context) {
  *
  * @template {string|Node} T
  * @param {T} selector
- * @param {ParentNode} [context]
+ * @param {ParentNode|undefined|null} [context]
  * @returns {TypeOf$<T>|undefined}
  */
 export const $ = function (selector, context) {
@@ -303,7 +303,7 @@ export const is = (elem, selector) => elem.matches(selector);
  * Like {@link $}, but with class name rather than selector + also matches against the context itself, not just elements within it
  *
  * @param {string} className
- * @param {ParentNode} [context]
+ * @param {ParentNode|undefined|null} [context]
  * @returns {HTMLElement|undefined}
  */
 export const elemByClass = function (className, context) {
@@ -315,7 +315,7 @@ export const elemByClass = function (className, context) {
  * Like {@link elemByClass} but replaces {@link $$} instead and either returns the context itself if it matches, or a list of matching elements within it
  *
  * @param {string} className
- * @param {ParentNode} [context]
+ * @param {ParentNode|undefined|null} [context]
  * @returns {HTMLElement[]}
  */
 export const elemsByClass = function (className, context) {

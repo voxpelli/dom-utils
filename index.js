@@ -180,7 +180,7 @@ export const appendChild = function (elem, ...children) { elem.append(...childre
  */
 export const setAttributes = (elem, attributes) => {
   for (const [attribute, value] of Object.entries(attributes)) {
-    if (value !== undefined) {
+    if (value !== undefined && value !== null) {
       elem.setAttribute(attribute, value);
     }
   }

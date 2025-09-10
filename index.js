@@ -218,6 +218,7 @@ export const getDataAttribute = function (elem, attribute) {
 /**
  * Helper that makes one don't have to do kebab case conversion oneself
  *
+ * @deprecated Use {@link HTMLElement.dataset} instead
  * @param {HTMLElement} elem
  * @param {string} attribute Should be in kebab case
  * @param {string} value

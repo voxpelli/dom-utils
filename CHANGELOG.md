@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/voxpelli/dom-utils/compare/v2.0.1...v2.0.2) (2025-09-10)
+
+
+### 📚 Documentation
+
+* **readme:** document 2.x changes ([#9](https://github.com/voxpelli/dom-utils/issues/9)) ([65c3f15](https://github.com/voxpelli/dom-utils/commit/65c3f153c6b25f351a9de2cf74a324a5cbf1f443))
+
 ## [2.0.1](https://github.com/voxpelli/dom-utils/compare/v2.0.0...v2.0.1) (2025-09-10)
 
 

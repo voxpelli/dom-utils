@@ -1,13 +1,9 @@
 {
-  "extends": "@voxpelli/tsconfig/node20.json",
+  "extends": "@voxpelli/tsconfig/browser.json",
   "files": [
     "index.js"
   ],
   "include": [
     "test-d/**/*"
-  ],
-  "compilerOptions": {
-    "lib": ["ES2016", "DOM"],
-    "types": []
-  }
+  ]
 }

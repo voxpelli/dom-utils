@@ -1,4 +1,5 @@
 /* eslint-disable func-style */
+
 /** @import { TypeOf$, TypeOf$$ } from './advanced-types.d.ts' */
 
 /**
@@ -78,7 +79,7 @@ export const ensureHTMLElements = (elems) => {
  *
  * @template {string|Node[]|NodeListOf<Node>} T
  * @param {T} selector
- * @param {ElementContainer} [context] If set, only looks up elements within the context container
+ * @param {ParentNode} [context] If set, only looks up elements within the context container
  * @returns {TypeOf$$<T>[]}
  */
 export const $$ = function (selector, context) {
@@ -97,7 +98,7 @@ export const $$ = function (selector, context) {
  *
  * @template {string|Node} T
  * @param {T} selector
- * @param {ElementContainer} [context]
+ * @param {ParentNode} [context]
  * @returns {TypeOf$<T>|undefined}
  */
 export const $ = function (selector, context) {
@@ -125,11 +126,12 @@ export const addText = function (elem, text) {
       createChild(elem, 'br');
     }
 
-    appendChild(elem, document.createTextNode(value));
+    elem.append(document.createTextNode(value));
   }
 };
 
 /**
+ * @deprecated Use {@link Element.classList} + {@link DOMTokenList.contains} directly instead
  * @param {Element} elem
  * @param {string} className
  * @returns {boolean}
@@ -137,6 +139,7 @@ export const addText = function (elem, text) {
 export const hasClass = (elem, className) => elem.classList ? elem.classList.contains(className) : false;
 
 /**
+ * @deprecated Use {@link Element.classList} + {@link DOMTokenList.remove} directly instead
  * @param {Element} elem
  * @param {string} className
  * @returns {void}
@@ -144,6 +147,7 @@ export const hasClass = (elem, className) => elem.classList ? elem.classList.con
 export const removeClass = (elem, className) => elem.classList.remove(className);
 
 /**
+ * @deprecated Use {@link Element.classList} + {@link DOMTokenList.add} directly instead
  * @param {Element} elem
  * @param {string} className
  * @returns {void}
@@ -151,6 +155,7 @@ export const removeClass = (elem, className) => elem.classList.remove(className)
 export const addClass = (elem, className) => elem.classList.add(className);
 
 /**
+ * @deprecated Use {@link Element.classList} + {@link DOMTokenList.toggle} directly instead
  * @param {Element} elem
  * @param {string} className
  * @returns {void}
@@ -160,14 +165,12 @@ export const toggleClass = (elem, className) => { elem.classList.toggle(classNam
 /**
  * Helper to append many children nodes at once
  *
- * @param {ElementContainer} elem
+ * @deprecated Use {@link Element.append} instead, it also supports multiple arguments
+ * @param {ParentNode} elem
  * @param {...Node} children
+ * @returns {void}
  */
-export const appendChild = function (elem, ...children) {
-  for (const child of children) {
-    elem.append(child);
-  }
-};
+export const appendChild = function (elem, ...children) { elem.append(...children); };
 
 /**
  * Helper to easily set a collection of attributes
@@ -176,16 +179,16 @@ export const appendChild = function (elem, ...children) {
  * @param {{ [attributeName: string]: string }} attributes
  */
 export const setAttributes = (elem, attributes) => {
-  for (const attribute of Object.keys(attributes)) {
-    if (attributes[attribute]) {
-      elem.setAttribute(attribute, attributes[attribute]);
+  for (const [attribute, value] of Object.entries(attributes)) {
+    if (value !== undefined && value !== null) {
+      elem.setAttribute(attribute, value);
     }
   }
 };
 
 /**
- * @deprecated Use element.remove() instead
- * @param {Element} elem
+ * @deprecated Use {@link Element.remove} instead
+ * @param {ChildNode} elem
  * @returns {void}
  */
 export const removeElement = (elem) => elem.remove ? elem.remove() : undefined;
@@ -193,17 +196,16 @@ export const removeElement = (elem) => elem.remove ? elem.remove() : undefined;
 /**
  * Iterates over all children in a container and removes them all
  *
- * @param {ElementContainer} elem
+ * @deprecated Use {@link ParentNode.replaceChildren} with empty arguments instead
+ * @param {ParentNode} elem
+ * @returns {void}
  */
-export const emptyElement = function (elem) {
-  while (elem.firstChild) {
-    elem.firstChild.remove();
-  }
-};
+export const emptyElement = (elem) => { elem.replaceChildren(); };
 
 /**
  * Helper that makes one don't have to do kebab case conversion oneself
  *
+ * @deprecated Use {@link HTMLElement.dataset} instead
  * @param {HTMLElement} elem
  * @param {string} attribute Should be in kebab case
  * @returns {string|undefined}
@@ -228,10 +230,11 @@ export const setDataAttribute = function (elem, attribute, value) {
 /**
  * Helper to easily create a new HTML element, with all that one would need for that
  *
- * @param {string} tag
+ * @template {keyof HTMLElementTagNameMap} T
+ * @param {T} tag
  * @param {string|string[]|{ [attributeName: string]: string }} [classNameOrAttributes]
  * @param {string} [text]
- * @returns {HTMLElement}
+ * @returns {HTMLElementTagNameMap[T]}
  */
 export const createElement = function (tag, classNameOrAttributes, text) {
   const newElem = document.createElement(tag);
@@ -258,21 +261,23 @@ export const createElement = function (tag, classNameOrAttributes, text) {
  *
  * Helpful when creating multiple elements within one another as one can then send the result of one as the container to the other.
  *
- * @param {ElementContainer} elem
- * @param {string} tag
+ * @template {keyof HTMLElementTagNameMap} T
+ * @param {ParentNode} elem
+ * @param {T} tag
  * @param {string|string[]|{ [attributeName: string]: string }} [classNameOrAttributes]
  * @param {string} [text]
- * @returns {HTMLElement}
+ * @returns {HTMLElementTagNameMap[T]}
  */
 export const createChild = function (elem, tag, classNameOrAttributes, text) {
   const child = createElement(tag, classNameOrAttributes, text);
-  appendChild(elem, child);
+  elem.append(child);
   return child;
 };
 
 /**
  * Iterates over the parents of a node and returns the first one that has the specified class name
  *
+ * @deprecated Use {@link Element.closest} instead
  * @param {Node} elem
  * @param {string} className
  * @returns {HTMLElement|undefined}
@@ -287,14 +292,22 @@ export const closestByClass = function (elem, className) {
 };
 
 /**
+ * @deprecated Use {@link Element.matches} directly instead
+ * @param {Element} elem
+ * @param {string} selector
+ * @returns {boolean}
+ */
+export const is = (elem, selector) => elem.matches(selector);
+
+/**
  * Like {@link $}, but with class name rather than selector + also matches against the context itself, not just elements within it
  *
  * @param {string} className
- * @param {ElementContainer} [context]
+ * @param {ParentNode} [context]
  * @returns {HTMLElement|undefined}
  */
 export const elemByClass = function (className, context) {
-  if (context instanceof Element && hasClass(context, className)) return ensureHTMLElement(context);
+  if (context instanceof HTMLElement && context.classList.contains(className)) return context;
   return $('.' + className, context);
 };
 
@@ -302,7 +315,7 @@ export const elemByClass = function (className, context) {
  * Like {@link elemByClass} but replaces {@link $$} instead and either returns the context itself if it matches, or a list of matching elements within it
  *
  * @param {string} className
- * @param {ElementContainer} [context]
+ * @param {ParentNode} [context]
  * @returns {HTMLElement[]}
  */
 export const elemsByClass = function (className, context) {
@@ -318,8 +331,6 @@ export const elemsByClass = function (className, context) {
  */
 export const insertBefore = function (elem, child) {
   if (!elem.parentNode || !elem.parentNode.insertBefore) return child;
-
   elem.parentNode.insertBefore(child, elem);
-
   return child;
 };

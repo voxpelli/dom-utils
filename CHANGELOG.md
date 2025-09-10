@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/voxpelli/dom-utils/compare/v2.0.0...v2.0.1) (2025-09-10)
+
+
+### 🩹 Fixes
+
+* widen accepted types a bit ([4ef21ad](https://github.com/voxpelli/dom-utils/commit/4ef21adf73880fc72dfa9b2b1a83dcf04c6a1e67))
+
 ## [2.0.0](https://github.com/voxpelli/dom-utils/compare/v1.0.2...v2.0.0) (2025-09-10)
 
 

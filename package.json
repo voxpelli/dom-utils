@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@voxpelli/eslint-config": "^23.0.0",
-    "@voxpelli/tsconfig": "^15.1.2",
+    "@voxpelli/tsconfig": "^16.1.0",
     "eslint": "^9.28.0",
     "husky": "^9.1.7",
     "installed-check": "^9.3.0",
@@ -50,7 +50,7 @@
     "npm-run-all2": "^8.0.4",
     "tsd": "^0.32.0",
     "type-coverage": "^2.29.7",
-    "typescript": "~5.8.3",
+    "typescript": "~5.9.0",
     "validate-conventional-commit": "^1.0.4"
   }
 }

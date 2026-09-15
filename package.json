@@ -41,16 +41,16 @@
     "test": "run-s check build test:* clean"
   },
   "devDependencies": {
-    "@voxpelli/eslint-config": "^23.0.0",
+    "@voxpelli/eslint-config": "^25.1.0",
     "@voxpelli/tsconfig": "^16.1.0",
-    "eslint": "^9.28.0",
+    "eslint": "^10.10.0",
     "husky": "^9.1.7",
-    "installed-check": "^9.3.0",
-    "knip": "^5.60.2",
+    "installed-check": "^11.0.0",
+    "knip": "^6.35.1",
     "npm-run-all2": "^8.0.4",
     "tsd": "^0.32.0",
     "type-coverage": "^2.29.7",
     "typescript": "~5.9.0",
-    "validate-conventional-commit": "^1.0.4"
+    "validate-conventional-commit": "^2.0.0"
   }
 }
